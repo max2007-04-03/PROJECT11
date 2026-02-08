@@ -22,7 +22,6 @@ public class TimeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // У версії 3.0.15 використовуємо ServletContextTemplateResolver
         ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(getServletContext());
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
@@ -38,7 +37,6 @@ public class TimeServlet extends HttpServlet {
         String timezoneParam = req.getParameter("timezone");
         String lastTimezone;
 
-        // Логіка Cookie
         if (timezoneParam != null && !timezoneParam.isEmpty()) {
             lastTimezone = timezoneParam.replace(" ", "+");
             Cookie cookie = new Cookie("lastTimezone", lastTimezone);
@@ -56,7 +54,6 @@ public class TimeServlet extends HttpServlet {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of(lastTimezone));
         String formattedTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " " + lastTimezone;
 
-        // Створення контексту (у версії 3.0.15 це робиться просто)
         WebContext context = new WebContext(req, resp, getServletContext());
         context.setVariable("formattedTime", formattedTime);
 
